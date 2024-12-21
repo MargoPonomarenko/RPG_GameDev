@@ -6,16 +6,35 @@ public class PlayerController : MonoBehaviour
 {
     public Rigidbody2D theRB;
     public float moveSpeed;
+    public Animator myAnim;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private float horizontalInput;
+    private float verticalInput;
 
-    // Update is called once per frame
     void Update()
     {
-        theRB.linearVelocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")) * moveSpeed;
+        // Get input data
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+        verticalInput = Input.GetAxisRaw("Vertical");
+
+        // Update linear velocity
+        theRB.linearVelocity = new Vector2(horizontalInput, verticalInput) * moveSpeed;
+
+
+        // Update animation
+        UpdateAnimation();
+
+        if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
+        {
+            myAnim.SetFloat("lastMoveX", horizontalInput);
+            myAnim.SetFloat("lastMoveY", verticalInput);
+        }
+    }
+
+    // Method to update animation
+    void UpdateAnimation()
+    {
+        myAnim.SetFloat("moveX", theRB.linearVelocity.x);
+        myAnim.SetFloat("moveY", theRB.linearVelocity.y);
     }
 }

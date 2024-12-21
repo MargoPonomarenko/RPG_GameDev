@@ -7,9 +7,25 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D theRB;
     public float moveSpeed;
     public Animator myAnim;
+    public static PlayerController instance;
+    public string areaTransitionName;
 
     private float horizontalInput;
     private float verticalInput;
+    void Start()
+    {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
+
+        DontDestroyOnLoad(gameObject);
+    }
 
     void Update()
     {

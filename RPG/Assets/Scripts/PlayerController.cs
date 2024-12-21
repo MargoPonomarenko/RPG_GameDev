@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private float horizontalInput;
     private float verticalInput;
+    private Vector3 bottomLeftLimit;
+    private Vector3 topRightLimit;
     void Start()
     {
         if(instance == null)
@@ -40,11 +42,19 @@ public class PlayerController : MonoBehaviour
         // Update animation
         UpdateAnimation();
 
-        if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
+        if (horizontalInput == 1 || horizontalInput == -1 || verticalInput == 1 || verticalInput == -1)
         {
             myAnim.SetFloat("lastMoveX", horizontalInput);
             myAnim.SetFloat("lastMoveY", verticalInput);
         }
+
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeftLimit.x, topRightLimit.x), Mathf.Clamp(transform.position.y, bottomLeftLimit.y, topRightLimit.y), transform.position.z);
+    }
+
+    public void SetBounds(Vector3 botLeft, Vector3 topRight)
+    {
+        bottomLeftLimit = botLeft + new Vector3(0.5f, 1f, 0f);
+        topRightLimit = topRight + new Vector3(-0.5f, -1f, 0f);
     }
 
     // Method to update animation

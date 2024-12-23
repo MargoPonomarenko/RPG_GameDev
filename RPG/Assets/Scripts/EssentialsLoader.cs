@@ -4,6 +4,7 @@ public class EssentialsLoader : MonoBehaviour
 {
     public GameObject UIScreen;
     public GameObject player;
+    public GameObject gameManag;
     void Start()
     {
         if(UIFade.instance == null)
@@ -15,6 +16,11 @@ public class EssentialsLoader : MonoBehaviour
         {
             PlayerController clone = Instantiate(player).GetComponent<PlayerController>();
             PlayerController.instance = clone;
+        }
+
+        if(GameManager.instance == null)
+        {
+            Instantiate(gameManag);
         }
     }
 

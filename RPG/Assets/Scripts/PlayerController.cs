@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private float verticalInput;
     private Vector3 bottomLeftLimit;
     private Vector3 topRightLimit;
+
+    public bool canMove = true;
     void Start()
     {
         if(instance == null)
@@ -37,17 +39,27 @@ public class PlayerController : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        // Update linear velocity
-        theRB.linearVelocity = new Vector2(horizontalInput, verticalInput) * moveSpeed;
+        if (canMove)
+        {
+            // Update linear velocity
+            theRB.linearVelocity = new Vector2(horizontalInput, verticalInput) * moveSpeed;
 
+        }
+        else
+        {
+            theRB.linearVelocity = Vector2.zero;
+        }
 
         // Update animation
         UpdateAnimation();
 
         if (horizontalInput == 1 || horizontalInput == -1 || verticalInput == 1 || verticalInput == -1)
         {
-            myAnim.SetFloat("lastMoveX", horizontalInput);
-            myAnim.SetFloat("lastMoveY", verticalInput);
+            if (canMove)
+            {
+                myAnim.SetFloat("lastMoveX", horizontalInput);
+                myAnim.SetFloat("lastMoveY", verticalInput);
+            }
         }
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, bottomLeftLimit.x, topRightLimit.x), Mathf.Clamp(transform.position.y, bottomLeftLimit.y, topRightLimit.y), transform.position.z);

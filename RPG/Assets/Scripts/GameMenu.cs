@@ -19,6 +19,8 @@ public class GameMenu : MonoBehaviour
     public TMP_Text statusName, statusHP, statusMP, statusStrength, statusDef, statusWpnEqpd, statusWpnPwr, statusArmrEqpd, statusArmrPwr, statusExp;
     public Image statusImage;
 
+    public ItemButton[] itemButtons;
+
     void Start()
     {
         
@@ -128,5 +130,27 @@ public class GameMenu : MonoBehaviour
         statusArmrPwr.text = playerStats[selected].armourPower.ToString();
         statusExp.text = (playerStats[selected].expToNextLevel[playerStats[selected].playerLevel] - playerStats[selected].currentEXP).ToString();
         statusImage.sprite = playerStats[selected].charImage;
+    }
+
+    public void ShowItems()
+    {
+        GameManager.instance.SortItems();
+
+        for (int i = 0; i < itemButtons.Length; i++)
+        {
+            itemButtons[i].buttonValue = i;
+
+            if(GameManager.instance.itemsHeld[i] != "")
+            {
+                itemButtons[i].buttonImage.gameObject.SetActive(true);
+                itemButtons[i].buttonImage.sprite = GameManager.instance.GetItemDetails(GameManager.instance.itemsHeld[i]).itemSprite;
+                itemButtons[i].amountText.text = GameManager.instance.numberOfItems[i].ToString();
+            }
+            else
+            {
+                itemButtons[i].buttonImage.gameObject.SetActive(false);
+                itemButtons[i].amountText.text = "";
+            }
+        }
     }
 }

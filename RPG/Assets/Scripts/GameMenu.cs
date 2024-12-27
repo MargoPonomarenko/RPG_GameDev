@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameMenu : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public class GameMenu : MonoBehaviour
     public TMP_Text[] itemCharChoiceNames;
 
     public static GameMenu instance;
+
+    public string mainMenuName;
 
     void Start()
     {
@@ -218,5 +221,14 @@ public class GameMenu : MonoBehaviour
     {
         GameManager.instance.SaveData();
         QuestManager.instance.SaveQuestData();
+    }
+
+    public void QuitGame()
+    {
+        SceneManager.LoadScene(mainMenuName);
+
+        Destroy(GameManager.instance.gameObject);
+        Destroy(PlayerController.instance.gameObject);
+        Destroy(gameObject);
     }
 }

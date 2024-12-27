@@ -51,6 +51,12 @@ MonoBehaviour:
   - {fileID: 3584081844379875125}
   - {fileID: 5397535869749477983}
   - {fileID: 7626197930623719954}
+  gameMenuOpen: 0
+  dialogActive: 0
+  fadingBetweenAreas: 0
+  itemsHeld: []
+  numberOfItems: 
+  referenceItems: []
 --- !u!1 &4694847765123036726
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aae0a8907a3cc3409152ca8e5be12a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charName: Woody
+  charName: Ralph
   playerLevel: 3
   currentEXP: 543
   expToNextLevel: 

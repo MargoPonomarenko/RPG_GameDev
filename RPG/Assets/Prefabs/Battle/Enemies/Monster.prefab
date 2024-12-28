@@ -101,7 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 0
-  movesAvailable: []
+  movesAvailable:
+  - Fire
   charName: Monster
   currentHp: 150
   maxHP: 250

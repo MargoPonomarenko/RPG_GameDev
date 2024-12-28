@@ -1,0 +1,15 @@
+using UnityEngine;
+
+public class DestroyOverLifetime : MonoBehaviour
+{
+    public float lifetime;
+    void Start()
+    {
+    }
+
+
+    void Update()
+    {
+        Destroy(gameObject, lifetime);
+    }
+}

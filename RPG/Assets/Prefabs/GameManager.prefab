@@ -54,6 +54,7 @@ MonoBehaviour:
   gameMenuOpen: 0
   dialogActive: 0
   fadingBetweenAreas: 0
+  battleActive: 0
   itemsHeld: []
   numberOfItems: 
   referenceItems: []
@@ -107,9 +108,9 @@ MonoBehaviour:
   expToNextLevel: 
   maxLevel: 10
   baseEXP: 1000
-  currentHP: 0
+  currentHP: 100
   maxHP: 100
-  currentMP: 0
+  currentMP: 30
   maxMP: 30
   mpLevelBonus: 
   strength: 15
@@ -169,9 +170,9 @@ MonoBehaviour:
   expToNextLevel: 
   maxLevel: 10
   baseEXP: 1000
-  currentHP: 0
+  currentHP: 150
   maxHP: 150
-  currentMP: 0
+  currentMP: 25
   maxMP: 25
   mpLevelBonus: 
   strength: 22
@@ -231,9 +232,9 @@ MonoBehaviour:
   expToNextLevel: 
   maxLevel: 10
   baseEXP: 1000
-  currentHP: 0
+  currentHP: 150
   maxHP: 150
-  currentMP: 0
+  currentMP: 25
   maxMP: 25
   mpLevelBonus: 
   strength: 22

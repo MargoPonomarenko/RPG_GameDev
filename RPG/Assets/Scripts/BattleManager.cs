@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
@@ -28,6 +29,26 @@ public class BattleManager : MonoBehaviour
     public GameObject enemyAttackEffect;
 
     public DamageNumber theDamageNumber;
+
+    public TMP_Text[] playerName, playerHP, playerMP;
+
+    public GameObject targetMenu;
+    public BattleTargetButton[] targetButtons;
+
+    public GameObject magicMenu;
+    public BattleMagicSelect[] magicButtons;
+
+    public BattleNotification battleNotice;
+
+    public int chanceToFlee = 35;
+    private bool fleeing;
+
+    public string gameOverScene;
+
+    public int rewardXP;
+    public string[] rewardItems;
+
+    public bool cannotFlee;
 
     void Start()
     {
@@ -70,7 +91,7 @@ public class BattleManager : MonoBehaviour
     {
         if (!battleActive)
         {
-            //cannotFlee = setCannotFlee;
+            cannotFlee = setCannotFlee;
 
             battleActive = true;
 
@@ -125,7 +146,7 @@ public class BattleManager : MonoBehaviour
             turnWaiting = true;
             currentTurn = Random.Range(0, activeBattlers.Count);
 
-            //UpdateUIStats();
+            UpdateUIStats();
         }
     }
 
@@ -140,7 +161,7 @@ public class BattleManager : MonoBehaviour
         turnWaiting = true;
 
         UpdateBattle();
-        //UpdateUIStats();
+        UpdateUIStats();
     }
 
     public void UpdateBattle()
@@ -157,14 +178,14 @@ public class BattleManager : MonoBehaviour
 
             if (activeBattlers[i].currentHp == 0)
             {
-                //Handle dead battler
+                // handle dead battler
                 if (activeBattlers[i].isPlayer)
                 {
-                    //activeBattlers[i].theSprite.sprite = activeBattlers[i].deadSprite;
+                    activeBattlers[i].theSprite.sprite = activeBattlers[i].deadSprite;
                 }
                 else
                 {
-                    //activeBattlers[i].EnemyFade();
+                    activeBattlers[i].EnemyFade();
                 }
 
             }
@@ -173,7 +194,7 @@ public class BattleManager : MonoBehaviour
                 if (activeBattlers[i].isPlayer)
                 {
                     allPlayersDead = false;
-                    //activeBattlers[i].theSprite.sprite = activeBattlers[i].aliveSprite;
+                    activeBattlers[i].theSprite.sprite = activeBattlers[i].aliveSprite;
                 }
                 else
                 {
@@ -187,17 +208,14 @@ public class BattleManager : MonoBehaviour
             if (allEnemiesDead)
             {
                 // end battle in victory
-                //StartCoroutine(EndBattleCo());
+                StartCoroutine(EndBattleCo());
             }
             else
             {
                 // end battle in failure
-                //StartCoroutine(GameOverCo());
+                StartCoroutine(GameOverCo());
             }
 
-            /* battleScene.SetActive(false);
-            GameManager.instance.battleActive = false;
-            battleActive = false; */
         }
         else
         {
@@ -263,6 +281,200 @@ public class BattleManager : MonoBehaviour
 
         Instantiate(theDamageNumber, activeBattlers[target].transform.position, activeBattlers[target].transform.rotation).SetDamage(damageToGive);
 
-        //UpdateUIStats();
+        UpdateUIStats();
     }
+
+    public void UpdateUIStats()
+    {
+        for (int i = 0; i < playerName.Length; i++)
+        {
+            if (activeBattlers.Count > i)
+            {
+                if (activeBattlers[i].isPlayer)
+                {
+                    BattleChar playerData = activeBattlers[i];
+
+                    playerName[i].gameObject.SetActive(true);
+                    playerName[i].text = playerData.charName;
+                    playerHP[i].text = Mathf.Clamp(playerData.currentHp, 0, int.MaxValue) + "/" + playerData.maxHP;
+                    playerMP[i].text = Mathf.Clamp(playerData.currentMP, 0, int.MaxValue) + "/" + playerData.maxMP;
+
+                }
+                else
+                {
+                    playerName[i].gameObject.SetActive(false);
+                }
+            }
+            else
+            {
+                playerName[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void PlayerAttack(string moveName, int selectedTarget)
+    {
+
+        int movePower = 0;
+        for (int i = 0; i < movesList.Length; i++)
+        {
+            if (movesList[i].moveName == moveName)
+            {
+                Instantiate(movesList[i].theEffect, activeBattlers[selectedTarget].transform.position, activeBattlers[selectedTarget].transform.rotation);
+                movePower = movesList[i].movePower;
+            }
+        }
+
+        Instantiate(enemyAttackEffect, activeBattlers[currentTurn].transform.position, activeBattlers[currentTurn].transform.rotation);
+
+        DealDamage(selectedTarget, movePower);
+
+        uiButtonsHolder.SetActive(false);
+        targetMenu.SetActive(false);
+
+        NextTurn();
+
+    }
+
+    public void OpenTargetMenu(string moveName)
+    {
+        targetMenu.SetActive(true);
+
+        List<int> Enemies = new List<int>();
+        for (int i = 0; i < activeBattlers.Count; i++)
+        {
+            if (!activeBattlers[i].isPlayer)
+            {
+                Enemies.Add(i);
+            }
+        }
+
+        for (int i = 0; i < targetButtons.Length; i++)
+        {
+            if (Enemies.Count > i && activeBattlers[Enemies[i]].currentHp > 0)
+            {
+                targetButtons[i].gameObject.SetActive(true);
+
+                targetButtons[i].moveName = moveName;
+                targetButtons[i].activeBattlerTarget = Enemies[i];
+                targetButtons[i].targetName.text = activeBattlers[Enemies[i]].charName;
+            }
+            else
+            {
+                targetButtons[i].gameObject.SetActive(false);
+            }
+        } 
+    }
+
+    public void OpenMagicMenu()
+    {
+        magicMenu.SetActive(true);
+        
+        for (int i = 0; i < magicButtons.Length; i++)
+        {
+            if (activeBattlers[currentTurn].movesAvailable.Length > i)
+            {
+                magicButtons[i].gameObject.SetActive(true);
+
+                magicButtons[i].spellName = activeBattlers[currentTurn].movesAvailable[i];
+                magicButtons[i].nameText.text = magicButtons[i].spellName;
+
+                for (int j = 0; j < movesList.Length; j++)
+                {
+                    if (movesList[j].moveName == magicButtons[i].spellName)
+                    {
+                        magicButtons[i].spellCost = movesList[j].moveCost;
+                        magicButtons[i].costText.text = magicButtons[i].spellCost.ToString();
+                    }
+                }
+
+            }
+            else
+            {
+                magicButtons[i].gameObject.SetActive(false);
+            }
+        } 
+    }
+
+    public void Flee()
+    {
+        if (cannotFlee)
+        {
+            battleNotice.theText.text = "Can not flee this battle!";
+            battleNotice.Activate();
+        }
+        else
+        {
+            int fleeSuccess = Random.Range(0, 100);
+            if (fleeSuccess < chanceToFlee)
+            {
+                // end the battle
+                fleeing = true;
+                StartCoroutine(EndBattleCo());
+            }
+            else
+            {
+                NextTurn();
+                battleNotice.theText.text = "Couldn't escape!";
+                battleNotice.Activate();
+            }
+        }
+    }
+
+    public IEnumerator EndBattleCo()
+    {
+        battleActive = false;
+        uiButtonsHolder.SetActive(false);
+        targetMenu.SetActive(false);
+        magicMenu.SetActive(false);
+
+        yield return new WaitForSeconds(0.5f);
+
+        UIFade.instance.FadeToBlack();
+
+        yield return new WaitForSeconds(1.5f);
+
+        for (int i = 0; i < activeBattlers.Count; i++)
+        {
+            if (activeBattlers[i].isPlayer)
+            {
+                for (int j = 0; j < GameManager.instance.playerStats.Length; j++)
+                {
+                    if (activeBattlers[i].charName == GameManager.instance.playerStats[j].charName)
+                    {
+                        GameManager.instance.playerStats[j].currentHP = activeBattlers[i].currentHp;
+                        GameManager.instance.playerStats[j].currentMP = activeBattlers[i].currentMP;
+                    }
+                }
+            }
+
+            Destroy(activeBattlers[i].gameObject);
+        }
+
+        UIFade.instance.FadeFromBlack();
+        battleScene.SetActive(false);
+        activeBattlers.Clear();
+        currentTurn = 0;
+        if (fleeing)
+        {
+            GameManager.instance.battleActive = false;
+            fleeing = false;
+        }
+        else
+        {
+            BattleReward.instance.OpenRewardScreen(rewardXP, rewardItems);
+        }
+    }
+
+    
+    public IEnumerator GameOverCo()
+    {
+        
+        battleActive = false;
+        UIFade.instance.FadeToBlack();
+        yield return new WaitForSeconds(1.5f);
+        battleScene.SetActive(false);
+        SceneManager.LoadScene(gameOverScene); 
+     }
+    
 }

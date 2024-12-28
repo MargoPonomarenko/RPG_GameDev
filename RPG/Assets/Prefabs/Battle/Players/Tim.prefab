@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6206823931951083297}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.9740357, y: 0.18279219, z: 0.11975444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -101,7 +101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayer: 1
-  movesAvailable: []
+  movesAvailable:
+  - Fire
   charName: Tim
   currentHp: 0
   maxHP: 0
@@ -112,3 +113,7 @@ MonoBehaviour:
   wpnPower: 0
   armrPower: 0
   hasDied: 0
+  theSprite: {fileID: 6311193498504040376}
+  deadSprite: {fileID: 8888318505984086984, guid: b81091c21d8f26f49b1f4adb859e5e40, type: 3}
+  aliveSprite: {fileID: -1038918931832879880, guid: b81091c21d8f26f49b1f4adb859e5e40, type: 3}
+  fadeSpeed: 1

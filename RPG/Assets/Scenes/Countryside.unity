@@ -8932,6 +8932,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1896290392}
   - component: {fileID: 1896290391}
+  - component: {fileID: 1896290393}
   m_Layer: 0
   m_Name: Rock
   m_TagString: Untagged
@@ -9009,6 +9010,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 638549984}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1896290393
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896290390}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.30160856}
+  m_Radius: 1.8483915
 --- !u!1001 &1966338648
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9084,6 +9121,14 @@ PrefabInstance:
     - target: {fileID: 6146679241188647389, guid: 30762eafdbc0944439efc3bbb343be15, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376480579386904497, guid: 30762eafdbc0944439efc3bbb343be15, type: 3}
+      propertyPath: m_Size.y
+      value: 1.7278743
+      objectReference: {fileID: 0}
+    - target: {fileID: 6376480579386904497, guid: 30762eafdbc0944439efc3bbb343be15, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2604469
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

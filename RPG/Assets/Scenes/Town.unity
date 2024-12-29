@@ -171,6 +171,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health Potion
       objectReference: {fileID: 0}
+    - target: {fileID: 9096144889885303723, guid: 807a81867e7de5f42a88b22aca17de3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -563,7 +567,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1068386013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,7 +892,7 @@ MonoBehaviour:
   - Is everything okay?
   - n-Girl
   - No!
-  - My family was kidnapped by a dragon!
+  - My family was kidnapped by some monsters in a cave!
   - n-Player
   - Don't worry
   - I'll save them!
@@ -14022,7 +14026,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1678441769
 MonoBehaviour:
   m_ObjectHideFlags: 0
